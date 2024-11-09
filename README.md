@@ -1,0 +1,1 @@
+# WOF-with-inhertiance
