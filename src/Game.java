@@ -16,6 +16,7 @@ public abstract class Game { // since Game is abstract, any class that extends i
 
     protected abstract GameRecord play(); // plays a game and returns a GameRecord
         // we will define what happens/what gets added to the game record when we define play() in other classes that extend Game
+
     protected abstract Boolean playNext(); // asks if the next game should be played. returns true or false
 
 
