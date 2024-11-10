@@ -13,6 +13,9 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
     public int numGuesses;
     public int maxGuesses;
 
+    // Abstract method to get a guess from user or AI
+    protected abstract char getGuess(String previousGuesses); // when we define the method in the WOFuser and WOF AI, this should return a char
+
     public void generatePhrase(){ // gets a random phrase from the phrases.txt file
         List<String> phraseList=null;
         // Get the phrase from a file of phrases
@@ -46,15 +49,18 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
 
     }
 
+
     // will have abstract method getGuess(String previousGuesses), which returns a char based on whether we are implementing the user game or AI game
 
 
     @Override // defining abstract method for Game's play()
     protected GameRecord play() {
-
+        generatePhrase();
+        generateHiddenPhrase();
         maxGuesses = 16;
         numGuesses = 0;
         previousGuesses = new StringBuilder();
+
         // maybe before playing, prompt the user to enter their ID, then store this into the GameRecord?
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter your player ID: ");
@@ -64,36 +70,24 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
         GameRecord aGameRecord = new GameRecord(0, playerIDinput); // enter playerID and initialize the score as 0;
 
         while (numGuesses < maxGuesses && hiddenPhrase.indexOf("*") != -1){ //need to notify player if they guessed something previously guessed
-            System.out.println("enter a character guess: ");
-            String input = scanner.nextLine().toLowerCase(); //scanner.nextLine takes the next line as a string
+            System.out.println("Hidden Phrase: " + hiddenPhrase);
+            System.out.println("Previous Guesses: " + previousGuesses);
 
-            char guess = input.charAt(0); // convert the string input into a char called guess
+            char guess = getGuess(previousGuesses.toString()); // use getguess to return the char guess // convert the previousGuesses to string because it is initialized as a StringBuilder
 
             if (previousGuesses.indexOf(String.valueOf(guess)) == -1) { // Check if the guess is already made
                 previousGuesses.append(guess); // Append only the lowercase guess
 
-                // Convert the phrase to lowercase for the check
-                String lowercasePhrase = phrase.toLowerCase();
-
-                // check if guess is in the hiddenPhrase
-                if (lowercasePhrase.indexOf(guess) != -1){ // if the guess is in the phrase
-                    for (int i = 0; i<phrase.length(); i++){ // for each character in the phrase
-                        char c = phrase.charAt(i);
-                        if (Character.toLowerCase(c) == guess){
-                            hiddenPhrase.setCharAt(i, c);
-                        }
-                    }
-                    numGuesses ++;
-                    System.out.println("Hidden Phrase: " + hiddenPhrase);
+                boolean correctGuess = processGuess(guess);
+                if (guess >= 'A' && guess <= 'Z' || guess >= 'a' && guess <= 'z') { // increase numGuesses if the guess was a letter
+                    numGuesses++;
+                }
+                if (correctGuess){
                     System.out.println("Correct guess. you have " + (maxGuesses-numGuesses) + " guesses left");
 
-                } else { // if guess is not in the phase
-                    if (guess >= 'A' && guess <= 'Z' || guess >= 'a' && guess <= 'z') { // if the guess was a letter
-                        numGuesses++;
-                    }
+                } else{
                     System.out.println("wrong guess. you have " + (maxGuesses-numGuesses) + " guesses left");
                 }
-
 
             } else {
                 System.out.println("You already guessed that letter. Try a different one.");
@@ -102,21 +96,32 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
             if (numGuesses == maxGuesses && hiddenPhrase.indexOf("*") != -1 ){ // if the max guesses have been reached and * is still in the hiddenPhrase
                 System.out.println("the game is over. you have reached the max guesses");
             }
-
-
-
         }
         int score = maxGuesses - numGuesses; // if the player guesses the word in less guesses, the score will be higher since numguesses increases every time you guess smth
 
         // update the gamerecord after the game is over to contain the score at the end of the game
         aGameRecord.score = score;
         return aGameRecord;
+    }
 
-
+    // make a processGuess method to process the player's guess and update the hidden phrase if correct
+    private boolean processGuess(char guess) {
+        boolean found = false;
+        for (int i = 0; i < phrase.length(); i++) {
+            char c = phrase.charAt(i);
+            if (Character.toLowerCase(c) == Character.toLowerCase(guess)) {
+                hiddenPhrase.setCharAt(i, c);
+                found = true;
+            }
+        }
+        return found;
     }
 
     @Override // defining abstract method for Game's playNext()
     protected Boolean playNext() { // maybe prompt the user and ask them if they wanna play another game, then if they say yes return true
-        return null;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Do you want to play another game? (yes/no): ");
+        String response = scanner.nextLine().trim().toLowerCase();
+        return response.equals("yes"); // if player enters "yes", it returns true
     }
 }
