@@ -14,6 +14,7 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
     public int maxGuesses;
 
     // Abstract method to get a guess from user or AI
+    // we are making it protected because it is only supposed to be used and overridden by subclasses of WheelOfFortune
     protected abstract char getGuess(String previousGuesses); // when we define the method in the WOFuser and WOF AI, this should return a char
 
     public void generatePhrase(){ // gets a random phrase from the phrases.txt file
