@@ -3,7 +3,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class AllGamesRecord {
-    private ArrayList<GameRecord> gameRecordList; // make a list of GameRecord objects
+    public ArrayList<GameRecord> gameRecordList; // make a list of GameRecord objects
 
     public AllGamesRecord(){ // constructor
         this.gameRecordList = new ArrayList<>(); // create an empty list for GameRecord objects to be stored
