@@ -56,4 +56,11 @@ public class AllGamesRecord {
         playerList.sort(Collections.reverseOrder());
         return (ArrayList<GameRecord>) playerList.subList(0, n);
     }
+
+    @Override
+    public String toString() {
+        return "AllGamesRecord{" +
+                "gameRecordList=" + gameRecordList +
+                '}';
+    }
 }
