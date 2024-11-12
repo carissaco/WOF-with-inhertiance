@@ -1,9 +1,13 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+// need to make it so it gives a different phrase each time?
+// end the game properly -- print out the correct phrase at the end
 
 public abstract class WheelOfFortune extends Game{ // should have a lot of code from original WOF project
     // define data members
@@ -12,24 +16,35 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
     public StringBuilder previousGuesses;
     public int numGuesses;
     public int maxGuesses;
+    private List<String> phraseList;
+
 
     // Abstract method to get a guess from user or AI
     // we are making it protected because it is only supposed to be used and overridden by subclasses of WheelOfFortune
     protected abstract char getGuess(String previousGuesses); // when we define the method in the WOFuser and WOF AI, this should return a char
 
-    public void generatePhrase(){ // gets a random phrase from the phrases.txt file
-        List<String> phraseList=null;
-        // Get the phrase from a file of phrases
+    // Constructor to load phrases when the game object is created -- this ensures that we start with a certain number of phrases each time we create a new WOF object
+    public WheelOfFortune() {
+        loadPhrases();
+    }
+
+    // load phrases from file into the phrase list
+    private void loadPhrases() {
         try {
-            phraseList = Files.readAllLines(Paths.get("phrases.txt"));
+            phraseList = new ArrayList<>(Files.readAllLines(Paths.get("phrases.txt")));
         } catch (IOException e) {
             System.out.println(e);
+            phraseList = new ArrayList<>();  // initialize empty list if loading fails
         }
+    }
 
-        // Get a random phrase from the list
+
+    public void generatePhrase(){ // gets a random phrase from the phrases.txt file
+        // Get a random phrase and remove it from the list
         Random rand = new Random();
-        int r= rand.nextInt(3); // gets 0, 1, or 2
-        this.phrase = phraseList.get(r);
+        int randomIndex = rand.nextInt(phraseList.size());
+        this.phrase = phraseList.get(randomIndex);
+        phraseList.remove(randomIndex);
 
     }
 
