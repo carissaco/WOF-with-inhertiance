@@ -23,13 +23,15 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
     // we are making it protected because it is only supposed to be used and overridden by subclasses of WheelOfFortune
     protected abstract char getGuess(String previousGuesses); // when we define the method in the WOFuser and WOF AI, this should return a char
 
+    protected abstract String getID(); // making an abstract method for getID because this will be different for the WOF user game vs the AI game
+
     // Constructor to load phrases when the game object is created -- this ensures that we start with a certain number of phrases each time we create a new WOF object
     public WheelOfFortune() {
         loadPhrases();
     }
 
     // load phrases from file into the phrase list
-    private void loadPhrases() {
+    public void loadPhrases() {
         try {
             phraseList = new ArrayList<>(Files.readAllLines(Paths.get("phrases.txt")));
         } catch (IOException e) {
@@ -78,9 +80,9 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
         previousGuesses = new StringBuilder();
 
         // maybe before playing, prompt the user to enter their ID, then store this into the GameRecord?
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("enter your player ID: ");
-        String playerIDinput = scanner.nextLine();
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("enter your player ID: ");
+        String playerIDinput = getID();
 
         // when we play a game, we should create a GameRecord
         GameRecord aGameRecord = new GameRecord(0, playerIDinput); // enter playerID and initialize the score as 0;

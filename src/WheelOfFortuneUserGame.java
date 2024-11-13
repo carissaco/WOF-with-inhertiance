@@ -2,6 +2,13 @@ import java.util.Scanner;
 
 public class WheelOfFortuneUserGame extends WheelOfFortune{
 
+    @Override
+    public String getID(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("enter your player ID: ");
+        return scanner.nextLine();
+    }
+
     // Override the abstract getGuess method to get the user's guess via Scanner input
     @Override
     protected char getGuess(String previousGuesses){
