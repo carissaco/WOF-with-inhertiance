@@ -1,8 +1,13 @@
+import java.util.Random;
+
 public class DefaultAIPlayer implements WheelOfFortunePlayer{
 
     @Override
-    public char nextGuess(){
-        return 'a';
+    public char nextGuess(){ // start with just guessing random letters
+        Random random = new Random();
+        int randomInt = random.nextInt('z' - 'a' + 1); // generate a random integer correlating to ascii values btwn a and z
+        return (char) ('a' + randomInt);
+
     }
 
     @Override

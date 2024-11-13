@@ -16,7 +16,7 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
     public StringBuilder previousGuesses;
     public int numGuesses;
     public int maxGuesses;
-    private List<String> phraseList;
+    public List<String> phraseList;
 
 
     // Abstract method to get a guess from user or AI
