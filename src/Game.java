@@ -11,6 +11,8 @@ public abstract class Game { // since Game is abstract, any class that extends i
             allGamesRecord.add(aGameRecord); // add the game record to all games record every time you play a game
 
         }
+        // need to get averages and top scores
+        allGamesRecord.average();
         return allGamesRecord; // we need to be able to print this
     }
 

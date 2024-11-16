@@ -8,6 +8,8 @@ public class AllGamesRecord {
     public AllGamesRecord(){ // constructor
         this.gameRecordList = new ArrayList<>(); // create an empty list for GameRecord objects to be stored
     }
+
+
     public void add(GameRecord gameRecord){ // adds a GameRecord to the AllGamesRecord
         gameRecordList.add(gameRecord);
     }
@@ -42,8 +44,9 @@ public class AllGamesRecord {
 
 
     public ArrayList<GameRecord> highGameList(int n) { //returns a sorted list of the top n scores including player and score
-        gameRecordList.sort(Collections.reverseOrder()); //sort out gameRecordList in descending order
-        return (ArrayList<GameRecord>) gameRecordList.subList(0, n); // creates a sublist consisting of the elements from index 0 to n
+        ArrayList<GameRecord> sortedList = new ArrayList<>(gameRecordList);
+        sortedList.sort(Collections.reverseOrder()); // Sort in descending order
+        return new ArrayList<>(sortedList.subList(0, Math.min(n, sortedList.size()))); // Create a new ArrayList from the sublist
     }
 
     public ArrayList<GameRecord> highGameList(String playerID, int n){ //returns a sorted list of the top n scores for the specified player.
@@ -59,8 +62,23 @@ public class AllGamesRecord {
 
     @Override
     public String toString() {
-        return "AllGamesRecord{" +
-                "gameRecordList=" + gameRecordList +
-                '}';
+        // Get the average score
+        double avgScore = average();
+
+        // Get the top 2 games
+        ArrayList<GameRecord> topGames = highGameList(2);
+
+        // Build a string representation
+        StringBuilder result = new StringBuilder("AllGamesRecord:\n");
+        // result.append("gameRecordList=" + gameRecordList + "}");
+        result.append("Average Score: ").append(avgScore).append("\n");
+        result.append("Top 2 Games:\n");
+
+        for (GameRecord record : topGames) {
+            result.append(record).append("\n"); // Assuming GameRecord has a meaningful toString() method
+        }
+
+        return result.toString();
     }
+
 }
