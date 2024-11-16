@@ -51,15 +51,26 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
                 return false;  // no more players or phrases to play with
             }
             loadPhrases();  // reload phrases for the next player
+
         }
+        players.get(currentPlayerIndex).reset();
         return true;
     }
 
 // in the main, should create at least 3 different players, then call playAll() to run through all the phrases for each player
 public static void main(String[] args) {
-    // testing with  default constructor
-    WheelOfFortuneAIGame aiGame = new WheelOfFortuneAIGame();
-    AllGamesRecord record = aiGame.playAll();
+    // WheelOfFortuneAIGame aiGame = new WheelOfFortuneAIGame(new AIplayer2()); // testing AI player 2
+    // WheelOfFortuneAIGame aiGame = new WheelOfFortuneAIGame(); // testing default
+
+    // testing third constructor
+    ArrayList<WheelOfFortunePlayer> playerList1 = new ArrayList<WheelOfFortunePlayer>();
+
+    playerList1.add(new DefaultAIPlayer());
+    playerList1.add(new AIplayer2());
+    playerList1.add(new AIplayer3());
+
+    WheelOfFortuneAIGame aiGame = new WheelOfFortuneAIGame(playerList1);
+    AllGamesRecord record = aiGame.playAll(); // the scores are always zero because my AI players aren't very good, but it still works
     System.out.println(record);
     }
 }

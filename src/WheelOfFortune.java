@@ -80,8 +80,7 @@ public abstract class WheelOfFortune extends Game{ // should have a lot of code 
         previousGuesses = new StringBuilder();
 
         // maybe before playing, prompt the user to enter their ID, then store this into the GameRecord?
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("enter your player ID: ");
+
         String playerIDinput = getID();
 
         // when we play a game, we should create a GameRecord

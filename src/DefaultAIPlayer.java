@@ -20,4 +20,5 @@ public class DefaultAIPlayer implements WheelOfFortunePlayer{
     public void reset(){
         // idk if i need this???
     }
+
 }
